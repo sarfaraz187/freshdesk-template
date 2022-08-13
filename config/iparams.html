@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <title>GDPR Delete Contact App</title>
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="https://static.freshdev.io/fdk/2.0/assets/freshdesk.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/@freshworks/crayons@v3/css/crayons-min.css"
+    />
+    <link rel="stylesheet" type="text/css" href="./assets/iparams.css" />
+  </head>
+  <body>
+    <div class="form">
+      <fw-toast id="type_toast_right" position="top-right"></fw-toast>
+      <section class="freshdesk-configuration">
+        <fw-tabs id="current_tab" variant="box">
+          <fw-tab slot="tab" panel="fwConfiguration">Freshdesk</fw-tab>
+          <fw-tab-panel name="fwConfiguration" class="fw-m-16">
+            <fw-input
+              id="fd_domain_name"
+              label="Freshdesk domain name"
+              warning-text="Please enter domain name"
+              error-text="Invalid domain"
+              placeholder="Enter Domain name"
+              required
+              clear-input
+            >
+            </fw-input>
+            <fw-input
+              id="fd_api_key"
+              class="fw-mt-8"
+              label="Freshworks API key"
+              warning-text="Please enter API key"
+              error-text="Invalid Api key"
+              placeholder="Enter your Freshdesk API key"
+              required
+              clear-input
+            >
+            </fw-input>
+            <fw-button id="fdConnect" class="fw-mt-16" color="primary"
+              >Verify</fw-button
+            >
+          </fw-tab-panel>
+          <fw-tab slot="tab" panel="configuration">Rules Configuration</fw-tab>
+          <fw-tab-panel name="configuration" class="fw-m-16">
+            <div class="rule-config-container">
+              <div class="fw-flex">
+                <fw-select
+                  id="typeSelect"
+                  label="Types"
+                  class="fw-flex-wrap fw-pr-16 fixed-width"
+                  placeholder="Select Types"
+                  multiple
+                >
+                  <fw-select-option value="1" selected>Starks</fw-select-option>
+                  <fw-select-option value="2">Lannisters</fw-select-option>
+                  <fw-select-option value="3">Sand</fw-select-option>
+                </fw-select>
+                <fw-select
+                  id="groupSelect"
+                  class="fw-flex-wrap fixed-width"
+                  label="Groups"
+                  placeholder="Select Groups"
+                  multiple
+                >
+                  <fw-select-option value="1" selected>Starks</fw-select-option>
+                  <fw-select-option value="2">Lannisters</fw-select-option>
+                  <fw-select-option value="3">Sand</fw-select-option>
+                  <fw-select-option value="4">Greyjoys</fw-select-option>
+                  <fw-select-option value="5">Tyrell</fw-select-option>
+                </fw-select>
+              </div>
+              <div class="fw-flex fw-mt-8 fw-content-end">
+                <fw-input
+                  type="number"
+                  min="0"
+                  max="60"
+                  class="fw-pr-16 fw-pt-6 fixed-width"
+                  label="Duration"
+                ></fw-input>
+                <fw-button
+                  class="flex-item-border fw-pt-6 fixed-width create-btn"
+                  color="primary"
+                  >Create</fw-button
+                >
+              </div>
+            </div>
+          </fw-tab-panel>
+        </fw-tabs>
+      </section>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+    <script src="https://static.freshdev.io/fdk/2.0/assets/fresh_client.js"></script>
+    <script
+      type="module"
+      src="https://unpkg.com/@freshworks/crayons@v3/dist/crayons/crayons.esm.js"
+    ></script>
+    <script
+      nomodule
+      src="https://unpkg.com/@freshworks/crayons@v3/dist/crayons/crayons.js"
+    ></script>
+    <script src="./assets/iparams.js"></script>
+    <script type="text/javascript">
+      let groups = "";
+      let storedSettings = "";
+
+      function getConfigs(configs) {
+        storedSettings = configs;
+      }
+
+      function validate() {
+        let isValid = true;
+        return isValid;
+      }
+
+      $(document).ready(function () {
+        app.initialized().then(function (_client) {
+          console.log("------------- App Initialized -------------");
+          window.client = _client;
+          // $("#current_tab").attr("active-tab-index", 1);
+          $("#fdConnect").on("fwClick", connectFreshdesk);
+        });
+      });
+
+      function postConfigs() {
+        const configs = {
+          _meta: {
+            secure: ["fdApiKey"],
+          },
+          fdDomain: fd_domain_name.value,
+          fdApiKey: fd_api_key.value,
+        };
+        return configs;
+      }
+
+      function setButton(buttonId, text, isDisable) {
+        var jq = "fw-button#" + buttonId;
+        $(jq).prop("disabled", isDisable);
+        $(jq).html(text);
+      }
+
+      function showNotification(status, message) {
+        document
+          .querySelector("#type_toast_right")
+          .trigger({ type: status, content: message });
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,15 @@
+.rule-config-container {
+  margin: auto;
+  width: 100%;
+  border-radius: 5px;
+  align-items: flex-end;
+}
+
+.fixed-width {
+  flex: 1;
+}
+
+.create-btn {
+  display: flex;
+  align-items: flex-end;
+}

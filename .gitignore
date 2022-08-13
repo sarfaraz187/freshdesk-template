@@ -1,0 +1,6 @@
+/log
+/server/test_data
+.fdk
+/server/node_modules
+/coverage
+/.report.json
